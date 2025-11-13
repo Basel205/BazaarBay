@@ -1,103 +1,115 @@
-E-Commerce Website (Flask + MySQL)
+# E-Commerce Website (Flask + MySQL)
 
-A full-stack e-commerce web application built using Flask, MySQL, and Jinja2, featuring customer authentication, product browsing, cart system, order management, and admin dashboard for product/category control.
+A full-stack e-commerce web application built using **Flask**, **MySQL**, and **Jinja2**, featuring complete product browsing, cart functionality, checkout system, order history, and an admin dashboard for product/category management.
 
-Features
-User Features
+---
 
-User registration and login
+## Features
 
-Browse all active products
+### User Features
 
-Product details page
+* User registration and login
+* Browse all active products
+* View product details
+* Add items to cart
+* Update quantities in cart
+* Checkout (Orders + Order_Details created)
+* View past orders
+* Search products by name/description
+* Category filters
+* Price range filtering
+* Pagination for product lists
 
-Add items to cart
+### Admin Features
 
-Update quantity in cart
+* Admin login
+* Add, edit, delete products
+* Manage categories
+* Modify stock quantities
+* View customer orders
+* Update order status (Pending → Shipped → Delivered)
+* Admin-only access control
 
-Checkout (creates order + order details)
+---
 
-View order history
+## Tech Stack
 
-Search by product name/description
+* **Backend:** Flask (Python)
+* **Database:** MySQL
+* **Frontend:** HTML, CSS, Jinja2
+* **Security:** bcrypt password hashing
+* **Database Design:** Normalized relational schema
 
-Filter by category
+---
 
-Price-range filtering
+## How to Run the Project
 
-Pagination for product listing
+### 1. Clone the Repository
 
-Admin Features
-
-Admin login
-
-Add, edit, delete products
-
-Manage categories
-
-Manage stock quantities
-
-View customer orders
-
-Update order status (Pending → Shipped → Delivered)
-
-Admin-only session handling
-
-Tech Stack
-
-Backend: Flask (Python)
-Database: MySQL
-Frontend: HTML, CSS, Jinja2 Templates
-Security: bcrypt password hashing
-Architecture: Normalized relational database schema
-
-How to Run the Project
-1. Clone Repository
+```
 git clone <repository_url>
 cd EcommerceWebsite
+```
 
-2. Create & Activate Virtual Environment
+### 2. Create & Activate Virtual Environment
+
+```
 python -m venv venv
-venv\Scripts\activate        # Windows
-source venv/bin/activate     # Mac/Linux
+venv/Scripts/activate     # Windows
+source venv/bin/activate  # macOS/Linux
+```
 
-3. Install Dependencies
+### 3. Install Dependencies
+
+```
 pip install -r requirements.txt
+```
 
-4. Setup MySQL Database
+### 4. Configure the MySQL Database
 
-Start MySQL server (XAMPP/MySQL Workbench/etc.)
+Start MySQL and create a database:
 
-Create a new database:
-
+```
 CREATE DATABASE ecommerce_normalized;
+```
 
+Import your SQL schema file.
 
-Import the provided .sql schema file
+Update database credentials in `config.py`:
 
-Update your credentials in config.py:
-
+```
 DB_CONFIG = {
     'host': 'localhost',
     'user': 'root',
     'password': 'your_password',
     'database': 'ecommerce_normalized'
 }
+```
 
-5. Run the Application
+### 5. Run the Application
+
+```
 python app.py
+```
 
-6. Access the Website
+### 6. Access in Browser
+
+```
 http://localhost:5000
+```
 
-Project Structure
+---
+
+## Project Structure
+
+```
 EcommerceWebsite/
 │
-├── app.py                     # Main Flask application
-├── config.py                  # Database configuration
-├── requirements.txt           # Project dependencies
+├── app.py
+├── config.py
+├── requirements.txt
 │
-├── templates/                 # Frontend pages
+├── templates/
 │   ├── home.html
 │   ├── product_details.html
 │   ├── cart.html
@@ -106,38 +118,34 @@ EcommerceWebsite/
 │   ├── register.html
 │   ├── admin_dashboard.html
 │   ├── admin_orders.html
-│   └── other admin/user pages
+│   └── other templates...
 │
 ├── static/
-│   ├── css/styles.css         # Custom CSS
-│   ├── js/                    # Optional JS
-│   └── images/                # Product images
+│   ├── css/
+│   │   └── styles.css
+│   ├── js/
+│   └── images/
 │
-└── venv/                      # Virtual environment
+└── venv/
+```
 
-Database Overview
+---
 
-Key tables:
+## Database Tables
 
-Customer
+* Customer
+* Admin
+* Product
+* Category
+* Cart
+* Cart_Items
+* Orders
+* Order_Details
 
-Admin
+All tables follow a normalized schema and maintain proper foreign-key relationships.
 
-Product
+---
 
-Category
+## Summary
 
-Cart
-
-Cart_Items
-
-Orders
-
-Order_Details
-
-The schema is fully normalized with foreign-key relationships linking customers, products, carts, and orders.
-
-
-Summary
-
-This project demonstrates a complete e-commerce workflow with clean routing, relational data modeling, authentication logic, shopping cart functionality, and a full admin panel. Built entirely with open-source technologies, it is ideal for academic, portfolio, or internship use.
+This project implements a complete e-commerce workflow including authentication, product catalog, cart logic, checkout, order management, and an admin dashboard. Built using open-source technologies, it is suitable for academic submissions, portfolios, and internship preparation.
