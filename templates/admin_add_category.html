@@ -1,0 +1,12 @@
+<!-- templates/admin_add_category.html -->
+{% extends "base.html" %}
+{% block title %}Add Category{% endblock %}
+
+{% block content %}
+<h2>Add New Category</h2>
+<form method="POST">
+    Name: <input type="text" name="name" required><br><br>
+    <button type="submit">Add Category</button>
+</form>
+<a href="{{ url_for('admin_dashboard') }}">Back to Dashboard</a>
+{% endblock %}

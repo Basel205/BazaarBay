@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h3>Your Addresses</h3>
+  <form method="POST" class="mt-3">
+    <div class="row g-2">
+      <div class="col-md-6">
+        <input type="text" name="street" placeholder="Street" class="form-control" required>
+      </div>
+      <div class="col-md-3">
+        <input type="text" name="city" placeholder="City" class="form-control" required>
+      </div>
+      <div class="col-md-3">
+        <input type="text" name="state" placeholder="State" class="form-control" required>
+      </div>
+      <div class="col-md-3">
+        <input type="text" name="postal" placeholder="Postal Code" class="form-control" required>
+      </div>
+      <div class="col-md-3">
+        <input type="text" name="country" placeholder="Country" class="form-control" required>
+      </div>
+      <div class="col-md-3">
+        <select name="type" class="form-control" required>
+          <option>Home</option>
+          <option>Work</option>
+          <option>Other</option>
+        </select>
+      </div>
+      <div class="col-md-3 form-check mt-2">
+        <input class="form-check-input" type="checkbox" name="is_default" id="is_default">
+        <label for="is_default" class="form-check-label">Set as Default</label>
+      </div>
+      <div class="col-md-3 mt-2">
+        <button type="submit" class="btn btn-primary w-100">Add Address</button>
+      </div>
+    </div>
+  </form>
+
+  <hr>
+  <h5 class="mt-4">Saved Addresses</h5>
+  <ul class="list-group">
+    {% for addr in addresses %}
+      <li class="list-group-item">
+        {{ addr.Type }} — {{ addr.Street }}, {{ addr.City }}, {{ addr.State }}, {{ addr.Postal_Code }}, {{ addr.Country }}
+        {% if addr.Is_Default %}
+          <span class="badge bg-success float-end">Default</span>
+        {% endif %}
+      </li>
+    {% else %}
+      <li class="list-group-item">No addresses found.</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock %}

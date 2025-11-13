@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container">
+    <h2>Checkout</h2>
+
+    <form method="POST">
+        <h3>Select Delivery Address</h3>
+
+        {% if addresses %}
+            {% for addr in addresses %}
+                <div style="margin-bottom: 10px; border: 1px solid #ccc; padding: 8px; border-radius: 6px;">
+                    <label>
+                        <input type="radio" name="address_id" value="{{ addr.Address_ID }}"
+                               {% if addr.Is_Default %}checked{% endif %}>
+                        {{ addr.Street }}, {{ addr.City }}, {{ addr.State }}, {{ addr.Postal_Code }}, {{ addr.Country }}
+                        {% if addr.Is_Default %}
+                            <strong>(Default)</strong>
+                        {% endif %}
+                    </label>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No saved addresses found.
+                <a href="{{ url_for('add_address') }}">Add one here</a>.
+            </p>
+        {% endif %}
+
+        <h3>Order Summary</h3>
+        <table class="cart-table" border="1" cellspacing="0" cellpadding="8" style="width:100%; border-collapse:collapse;">
+            <tr style="background:#f2f2f2;">
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Total</th>
+            </tr>
+
+            {% for item in cart_items %}
+            <tr>
+                <td>{{ item.Product_Name }}</td>
+                <td>{{ item.Quantity }}</td>
+                <td>₹{{ '%.2f'|format(item.Price) }}</td>
+                <td>₹{{ '%.2f'|format(item.Price * item.Quantity) }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <div style="margin-top: 15px;">
+            <button type="submit" class="btn" style="padding:10px 20px; background:#007bff; color:white; border:none; border-radius:5px;">
+                Place Order
+            </button>
+        </div>
+    </form>
+</div>
+{% endblock %}

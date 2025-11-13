@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block title %}{{ product.Name }}{% endblock %}
+{% block content %}
+<div class="product-details">
+    <div class="product-info">
+        <img src="{{ url_for('static', filename='images/' ~ (product.Image_URL if product.Image_URL else 'placeholder.png')) }}" 
+             alt="{{ product.Name }}" class="product-detail-image">
+        
+        <h2>{{ product.Name }}</h2>
+        <p class="price">₹{{ product.Price }}</p>
+        <p>{{ product.Description }}</p>
+        <p><strong>Stock:</strong> {{ product.Stock_Quantity }}</p>
+
+        {% if product.Stock_Quantity > 0 %}
+            <form action="{{ url_for('add_to_cart', product_id=product.Product_ID) }}" method="POST" class="add-to-cart-form">
+                <label for="quantity"><strong>Quantity:</strong></label>
+                <input type="number" name="quantity" id="quantity" value="1" min="1" max="{{ product.Stock_Quantity }}" style="width: 80px; margin: 0 10px;">
+                <button type="submit" class="btn">Add to Cart</button>
+            </form>
+        {% else %}
+            <span class="badge out-of-stock">Out of Stock</span>
+        {% endif %}
+    </div>
+</div>
+
+<hr>
+
+<!-- Reviews Section -->
+<div class="reviews-section">
+    <h3>Customer Reviews</h3>
+
+    {% if reviews %}
+        {% for r in reviews %}
+            <div class="review-box">
+                <p><strong>{{ r.Customer_Name }}</strong> 
+                   ⭐ {{ r.Rating }}/5 
+                   <small>({{ r.Review_Date.strftime('%Y-%m-%d') }})</small></p>
+                <p>{{ r.Comment }}</p>
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>No reviews yet. Be the first to review this product!</p>
+    {% endif %}
+</div>
+
+<hr>
+
+<!-- Add Review Form -->
+{% if session.get('user_id') %}
+<div class="add-review">
+    <h4>Write a Review</h4>
+    <form method="POST">
+        <div class="form-group">
+            <label for="rating"><strong>Rating:</strong></label>
+            <select name="rating" id="rating" required style="margin-left: 10px;">
+                <option value="">Select...</option>
+                {% for i in range(1,6) %}
+                    <option value="{{ i }}">{{ i }} ⭐</option>
+                {% endfor %}
+            </select>
+        </div>
+        
+        <div class="form-group">
+            <label for="comment"><strong>Comment:</strong></label>
+            <textarea name="comment" id="comment" rows="3" placeholder="Write your review..." required style="width: 100%; margin-top: 8px;"></textarea>
+        </div>
+
+        <button type="submit" class="btn">Submit Review</button>
+    </form>
+</div>
+{% else %}
+    <p><a href="{{ url_for('login') }}">Login</a> to write a review.</p>
+{% endif %}
+{% endblock %}

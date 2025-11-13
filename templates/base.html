@@ -1,0 +1,54 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}BazaarBay{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>BazaarBay</h1>
+        <nav>
+            <a href="{{ url_for('home') }}">Home</a>
+
+            {% if session.get('user_id') %}
+                | <a href="{{ url_for('cart') }}">Cart</a>
+                | <a href="{{ url_for('orders') }}">My Orders</a>
+                | <a href="{{ url_for('manage_address') }}">My Addresses</a>
+                | <a href="{{ url_for('logout') }}">Logout</a>
+                | <span>Welcome, {{ session.get('user_name') }}</span>
+
+            {% elif session.get('admin_id') %}
+                | <a href="{{ url_for('admin_dashboard') }}">Admin Dashboard</a>
+                | <a href="{{ url_for('admin_logout') }}">Admin Logout</a>
+                | <span>Welcome, {{ session.get('admin_name') }}</span>
+            {% else %}
+                | <a href="{{ url_for('login') }}">Login</a>
+                | <a href="{{ url_for('register') }}">Register</a>
+                | <a href="{{ url_for('admin_login') }}">Admin Login</a>
+            {% endif %}
+        </nav>
+        <hr>
+    </header>
+
+    <main>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <ul>
+              {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <hr>
+        <p>&copy; 2025 BazaarBay</p>
+    </footer>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

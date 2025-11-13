@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}Cart{% endblock %}
+{% block content %}
+<div class="cart-container">
+    <h2>Your Shopping Cart</h2>
+    
+    {% if cart_items %}
+        <div class="cart-items">
+            {% for item in cart_items %}
+                <div class="cart-item">
+                    <div class="item-info">
+                        <h4>{{ item.Product_Name }}</h4>
+                        <p>Quantity: {{ item.Quantity }}</p>
+                    </div>
+                    <div class="item-price">
+                        <p class="price">₹{{ item.Subtotal }}</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        
+        <div class="cart-total">
+            <p>Total: ₹{{ total_amount }}</p>
+        </div>
+
+        <!-- Checkout form -->
+        <form action="{{ url_for('checkout') }}" method="POST" style="text-align: center;">
+            <button type="submit" class="btn btn-success" style="padding: 12px 30px; font-size: 16px;">
+                Proceed to Checkout
+            </button>
+        </form>
+
+    {% else %}
+        <div style="text-align: center; padding: 40px;">
+            <p style="font-size: 18px; color: #666;">Your cart is empty.</p>
+            <a href="{{ url_for('home') }}" class="btn" style="margin-top: 15px;">Continue Shopping</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

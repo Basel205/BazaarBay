@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}My Orders{% endblock %}
+
+{% block content %}
+<h2>My Orders</h2>
+
+{% if order_items %}
+{% set grouped_orders = {} %}
+{% for item in order_items %}
+    {% if item.Order_ID not in grouped_orders %}
+        {% set _ = grouped_orders.update({item.Order_ID: []}) %}
+    {% endif %}
+    {% set _ = grouped_orders[item.Order_ID].append(item) %}
+{% endfor %}
+
+{% for order_id, items in grouped_orders.items() %}
+<div class="card mb-3">
+    <div class="card-header">
+        <strong>Order #{{ order_id }}</strong> - Status: 
+        {% if items[0].Status == 'Pending' %}
+            <span class="badge bg-warning">{{ items[0].Status }}</span>
+        {% elif items[0].Status == 'Shipped' %}
+            <span class="badge bg-primary">{{ items[0].Status }}</span>
+        {% elif items[0].Status == 'Delivered' %}
+            <span class="badge bg-success">{{ items[0].Status }}</span>
+        {% else %}
+            <span class="badge bg-danger">{{ items[0].Status }}</span>
+        {% endif %}
+        - Ordered At: {{ items[0].Created_At }}
+    </div>
+    <div class="card-body p-0">
+        <table class="table mb-0">
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in items %}
+                <tr>
+                    <td>{{ item.Product_Name }}</td>
+                    <td>{{ item.Quantity }}</td>
+                    <td>₹{{ item.Unit_Price }}</td>
+                    <td>₹{{ item.Subtotal }}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="3" class="text-end"><strong>Total:</strong></td>
+                    <td><strong>₹{{ items[0].Total_Amount }}</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endfor %}
+{% else %}
+<p>You have not placed any orders yet.</p>
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,37 @@
+<!-- templates/admin_orders.html -->
+{% extends "base.html" %}
+{% block title %}Orders{% endblock %}
+
+{% block content %}
+<h2>All Orders</h2>
+<table border="1" cellpadding="5">
+    <tr>
+        <th>Order_ID</th>
+        <th>Customer</th>
+        <th>Total Amount</th>
+        <th>Status</th>
+        <th>Created At</th>
+        <th>Actions</th>
+    </tr>
+    {% for order in orders %}
+    <tr>
+        <td>{{ order.Order_ID }}</td>
+        <td>{{ order.Customer_Name }}</td>
+        <td>₹{{ order.Total_Amount }}</td>
+        <td>{{ order.Status }}</td>
+        <td>{{ order.Created_At }}</td>
+        <td>
+            <form action="{{ url_for('update_order_status', order_id=order.Order_ID) }}" method="POST">
+                <select name="status">
+                    <option value="Pending" {% if order.Status=='Pending' %}selected{% endif %}>Pending</option>
+                    <option value="Shipped" {% if order.Status=='Shipped' %}selected{% endif %}>Shipped</option>
+                    <option value="Delivered" {% if order.Status=='Delivered' %}selected{% endif %}>Delivered</option>
+                </select>
+                <button type="submit">Update</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+<a href="{{ url_for('admin_dashboard') }}">Back to Dashboard</a>
+{% endblock %}
